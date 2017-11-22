@@ -18,13 +18,15 @@ RUN apt-get update && apt-get install -y nginx \
     && echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN mkdir /root/.composer/
 RUN mkdir /root/.ssh/
-COPY ./bitbucket/bb_rsa /root/.ssh/id_rsa
+# Bitbucket key to READ repositories for composer
+COPY ./keys/remote_access /root/.ssh/id_rsa
 RUN touch /root/.ssh/known_hosts && ssh-keyscan "bitbucket.org" >> /root/.ssh/known_hosts
+# Github token to READ repositories for composer
 RUN echo '{"github-oauth": {"github.com": "d8a6f5d51e25ac5fd21775f5c261ca1295c0d788"}}' > /root/.composer/auth.json
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/bin --filename=composer \
     && rm composer-setup.php
-# In case of ugly logs
+# TODO: In case of ugly logs
 # https://github.com/docker-library/php/issues/207
 # https://bugs.php.net/bug.php?id=71880
 RUN set -ex \
