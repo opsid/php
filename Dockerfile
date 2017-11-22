@@ -1,5 +1,5 @@
 FROM php:fpm
-LABEL Description="php-fpm + nginx + composer" Vendor="25h8" Version="1.0" maintainer="evgeniyivanets@gmail.com"
+LABEL Description="php-fpm + nginx + composer" Vendor="ivanets" Version="1.0" maintainer="evgeniyivanets@gmail.com"
 EXPOSE 80 443
 WORKDIR /app
 RUN apt-get update \
@@ -19,7 +19,8 @@ RUN apt-get update && apt-get install -y nginx \
 RUN mkdir /root/.composer/
 RUN mkdir /root/.ssh/
 # Bitbucket key to READ repositories for composer
-COPY ./keys/remote_access /root/.ssh/id_rsa
+ARG BITBUCKET_KEY=./keys/remote_access
+COPY ${BITBUCKET_KEY} /root/.ssh/id_rsa
 RUN touch /root/.ssh/known_hosts && ssh-keyscan "bitbucket.org" >> /root/.ssh/known_hosts
 # Github token to READ repositories for composer
 RUN echo '{"github-oauth": {"github.com": "d8a6f5d51e25ac5fd21775f5c261ca1295c0d788"}}' > /root/.composer/auth.json
