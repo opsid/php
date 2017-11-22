@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --tag opsimages/php:nginx .
+docker build --tag opsimages/php-nginx .
