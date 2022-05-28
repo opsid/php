@@ -1,4 +1,4 @@
-FROM php:fpm
+FROM php:8.1.0alpha3-fpm
 LABEL Description="php-fpm + nginx + composer" Vendor="ivanets" Version="1.0" maintainer="evgeniyivanets@gmail.com"
 EXPOSE 80 443
 WORKDIR /app
